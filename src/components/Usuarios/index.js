@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as usuariosActions from "../../actions/usuariosActions";
 
-
 class Usuarios extends Component {
   /*
   constructor() {
@@ -24,7 +23,7 @@ class Usuarios extends Component {
 		usuarios: respuesta.data
 		});
 	*/
-	// call Action Creator (this have the promise) to share with Reducer
+    // call Action Creator (this have the promise) to share with Reducer
     this.props.traerTodos();
   }
 
@@ -38,6 +37,8 @@ class Usuarios extends Component {
     ));
 
   render() {
+	console.log(this.props.cargando);
+	console.log(this.props.error);
     console.log(this.props);
     return (
       <div>
