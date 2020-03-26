@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Tabla = props => {
   // console.log(props);
@@ -10,9 +10,11 @@ const Tabla = props => {
         <td>{usuario.name}</td>
         <td>{usuario.email}</td>
         <td>{usuario.website}</td>
-				<Link to={ `/publicaciones/${key}` }>
-					<div className="eye-solid icon"></div>
-				</Link>
+        <td>
+          <Link to={`/publicaciones/${key}`}>
+            <div className="eye-solid icon"></div>
+          </Link>
+        </td>
       </tr>
     ));
 
