@@ -4,18 +4,19 @@ import * as usuariosActions from "../../actions/usuariosActions";
 import * as publicacionesActions from "../../actions/publicacionesActions";
 
 const { traerTodos: usuariosTraerTodos } = usuariosActions;
-const { traerTodos: publicacionesTraerTodos } = publicacionesActions;
-
+const { traerPorUsuario: publicacionesTraerPorUsuario } = publicacionesActions;
 class Publicaciones extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     if (!this.props.usuariosReducer.usuarios.length) {
       // this.props.traerTodos();
       // this.props.publicacionesActions.traerTodos();
-      this.props.usuariosTraerTodos();
+      await this.props.usuariosTraerTodos();
     }
+    this.props.publicacionesTraerPorUsuario(this.props.match.params.key);
   }
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <h1>Publicaciones de</h1>
@@ -31,7 +32,7 @@ const mapStateToProps = ({ usuariosReducer, publicacionesReducer }) => {
 
 const mapDispatchToProps = {
   usuariosTraerTodos,
-  publicacionesTraerTodos
+  publicacionesTraerPorUsuario
 };
 /*
 const mapDispatchToProps = {
