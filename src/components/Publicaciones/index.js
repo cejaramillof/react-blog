@@ -6,7 +6,10 @@ import * as usuariosActions from "../../actions/usuariosActions";
 import * as publicacionesActions from "../../actions/publicacionesActions";
 
 const { traerTodos: usuariosTraerTodos } = usuariosActions;
-const { traerPorUsuario: publicacionesTraerPorUsuario } = publicacionesActions;
+const {
+  traerPorUsuario: publicacionesTraerPorUsuario,
+  abrirCerrar
+} = publicacionesActions;
 class Publicaciones extends Component {
   async componentDidMount() {
     const {
@@ -78,13 +81,24 @@ class Publicaciones extends Component {
     if (!("publicaciones_key" in usuarios[key])) return;
 
     const { publicaciones_key } = usuarios[key];
-    return publicaciones[publicaciones_key].map(({ id, title, body }) => (
-      <div key={id} className="pub_titulo" onClick={() => alert(id)}>
+    return this.mostrarInfo(
+      publicaciones[publicaciones_key],
+      publicaciones_key
+    );
+  };
+
+  mostrarInfo = (publicaciones, pub_key) =>
+    publicaciones.map(({ id, title, body, abierto }, com_key) => (
+      <div
+        key={id}
+        className="pub_titulo"
+        onClick={() => this.props.abrirCerrar(pub_key, com_key)}
+      >
         <h2>{title}</h2>
         <h3>{body}</h3>
+        { (abierto) ? 'abierto' : 'cerrado' }
       </div>
     ));
-  };
 
   render() {
     console.log(this.props);
@@ -103,7 +117,8 @@ const mapStateToProps = ({ usuariosReducer, publicacionesReducer }) => {
 
 const mapDispatchToProps = {
   usuariosTraerTodos,
-  publicacionesTraerPorUsuario
+  publicacionesTraerPorUsuario,
+  abrirCerrar
 };
 /*
 const mapDispatchToProps = {

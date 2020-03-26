@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  ACTUALIZAR,
   TRAER_POR_USUARIO,
   TRAER_TODOS,
   CARGANDO,
@@ -44,10 +45,15 @@ export const traerPorUsuario = key => async (dispatch, getState) => {
     const respuesta = await axios.get(
       `https://jsonplaceholder.typicode.com/posts?userId=${usuario_id}`
     );
-    const publicaciones_actualizadas = [...publicaciones, respuesta.data];
+    const nuevas = respuesta.data.map(publicacion => ({
+      ...publicacion,
+      comentarios: [],
+      abierto: false
+    }));
+    const publicaciones_actualizadas = [...publicaciones, nuevas];
 
     dispatch({
-      type: TRAER_POR_USUARIO,
+      type: ACTUALIZAR,
       payload: publicaciones_actualizadas
     });
 
@@ -70,4 +76,21 @@ export const traerPorUsuario = key => async (dispatch, getState) => {
       payload: "Publicaciones no disponibles."
     });
   }
+};
+
+export const abrirCerrar = (pub_key, com_key) => (dispatch, getState) => {
+  console.log(pub_key, com_key);
+  const { publicaciones } = getState().publicacionesReducer;
+  const seleccionada = publicaciones[pub_key][com_key];
+
+  const actualizada = {
+    ...seleccionada,
+    abierto: !seleccionada.abierto
+  };
+  publicaciones[pub_key][com_key] = actualizada;
+
+  dispatch({
+    type: ACTUALIZAR,
+    payload: publicaciones
+  });
 };
