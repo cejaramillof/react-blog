@@ -100,6 +100,7 @@ class Publicaciones extends Component {
         <h2>{title}</h2>
         <h3>{body}</h3>
         {abierto ? "abierto" : "cerrado"}
+        {/* data by reducer be more presence than by params in component */}
         {abierto ? <Comentarios comentarios={comentarios} /> : ""}
       </div>
     ));

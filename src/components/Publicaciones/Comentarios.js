@@ -4,6 +4,7 @@ import Spinner from "../General/Spinner";
 import Fatal from "../General/Fatal";
 
 const Comentarios = props => {
+  // data by reducer be more presence than by params in component
   if (props.com_error) {
     return <Fatal mensaje={props.com_error} />;
   }
