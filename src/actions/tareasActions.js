@@ -10,9 +10,22 @@ export const traerTodas = () => async dispatch => {
     const respuesta = await axios.get(
       "https://jsonplaceholder.typicode.com/todos"
     );
+
+    const tareas = {};
+    respuesta.data.map(
+      tarea =>
+        (tareas[tarea.userId] = {
+          ...tareas[tarea.userId],
+          [tarea.id]: {
+            ...tarea
+          }
+        })
+    );
+
     dispatch({
       type: TRAER_TODAS,
-      payload: respuesta.data
+      // payload: respuesta.data
+      payload: tareas
     });
   } catch (error) {
     console.log(error.message);
