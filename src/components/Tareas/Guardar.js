@@ -14,13 +14,16 @@ class Guardar extends Component {
       },
       tareas,
       cambioUsuarioId,
-      cambioTitulo
+      cambioTitulo,
+      limpiarForma
     } = this.props;
 
     if (usu_id && tar_id) {
       const tarea = tareas[usu_id][tar_id];
       cambioUsuarioId(tarea.userId);
       cambioTitulo(tarea.title);
+    } else {
+      limpiarForma();
     }
   }
 
@@ -97,13 +100,13 @@ class Guardar extends Component {
         Usuario id:
         <input
           type="number"
-          defaultValue={this.props.usuario_id}
+          value={this.props.usuario_id}
           onChange={this.cambioUsuarioId}
         />
         <br />
         <br />
         Título:
-        <input defaultValue={this.props.titulo} onChange={this.cambioTitulo} />
+        <input value={this.props.titulo} onChange={this.cambioTitulo} />
         <br />
         <br />
         <button disabled={this.deshabilitar()} onClick={this.guardar}>
