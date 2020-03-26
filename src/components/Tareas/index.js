@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Spinner from "../General/Spinner";
 import Fatal from "../General/Fatal";
 import * as tareasActions from "../../actions/tareasActions";
+import { Link } from "react-router-dom";
 
 class Tareas extends Component {
   componentDidMount() {
@@ -43,7 +44,14 @@ class Tareas extends Component {
 
   render() {
     console.log(this.props);
-    return <div>{this.mostrarContenido()}</div>;
+    return (
+      <div>
+        <Link to="/tareas/guardar">
+          <button>Agregar</button>
+        </Link>
+        {this.mostrarContenido()}
+      </div>
+    );
   }
 }
 
