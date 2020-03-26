@@ -17,8 +17,8 @@ class Usuarios extends Component {
   */
 
   // async componentDidMount() {
-  async componentDidMount() {
-    /*
+  // async componentDidMount() {
+  /*
 		const respuesta = await axios.get(
 		"https://jsonplaceholder.typicode.com/users"
 		);
@@ -26,8 +26,14 @@ class Usuarios extends Component {
 		usuarios: respuesta.data
 		});
 	*/
-    // call Action Creator (this have the promise) to share with Reducer
-    this.props.traerTodos();
+  // call Action Creator (this have the promise) to share with Reducer
+  //  this.props.traerTodos();
+  //}
+
+  componentDidMount() {
+    if (!this.props.usuarios.length) {
+      this.props.traerTodos();
+    }
   }
 
   ponerContenido = () => {
