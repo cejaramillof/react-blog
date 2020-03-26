@@ -5,7 +5,8 @@ import {
   ERROR,
   CAMBIO_USUARIO,
   CAMBIO_TITULO,
-  AGREGADA
+  GUARDADA,
+  ACTUALIZAR
 } from "../types/tareasTypes";
 
 export const traerTodas = () => async dispatch => {
@@ -68,7 +69,7 @@ export const agregar = nueva_tarea => async dispatch => {
       nueva_tarea
     );
     dispatch({
-      type: AGREGADA
+      type: GUARDADA
     });
   } catch (error) {
     console.log(error.message);
@@ -77,4 +78,47 @@ export const agregar = nueva_tarea => async dispatch => {
       payload: "Servicio no disponible en este momento."
     });
   }
+};
+
+export const editar = tarea_editada => async dispatch => {
+  dispatch({
+    type: CARGANDO
+  });
+
+  try {
+    await axios.put(
+      `https://jsonplaceholder.typicode.com/todos/${tarea_editada.id}`,
+      tarea_editada
+    );
+    dispatch({
+      type: GUARDADA
+    });
+  } catch (error) {
+    console.log(error.message);
+    dispatch({
+      type: ERROR,
+      payload: "Servicio no disponible en este momento."
+    });
+  }
+};
+
+export const cambioCheck = (usu_id, tar_id) => (dispatch, getState) => {
+  const { tareas } = getState().tareasReducer;
+  const seleccionada = tareas[usu_id][tar_id];
+
+  const actualizadas = {
+    ...tareas
+  };
+  actualizadas[usu_id] = {
+    ...tareas[usu_id]
+  };
+  actualizadas[usu_id][tar_id] = {
+    ...tareas[usu_id][tar_id],
+    completed: !seleccionada.completed
+  };
+
+  dispatch({
+    type: ACTUALIZAR,
+    payload: actualizadas
+  });
 };
