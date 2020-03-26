@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import Spinner from "../General/Spinner";
+import Fatal from "../General/Fatal";
 
 import * as tareasActions from "../../actions/tareasActions";
 
@@ -11,9 +14,59 @@ class Guardar extends Component {
   cambioTitulo = event => {
     this.props.cambioTitulo(event.target.value);
   };
+
+  guardar = () => {
+    const { usuario_id, titulo, agregar } = this.props;
+    const nueva_tarea = {
+      userId: usuario_id,
+      title: titulo,
+      completed: false
+    };
+    agregar(nueva_tarea);
+  };
+
+  deshabilitar = () => {
+    const { usuario_id, titulo, cargando } = this.props;
+    if (cargando) {
+      return true;
+    }
+    if (!usuario_id || !titulo) return true;
+
+    return false;
+  };
+
+  mostrarAccion = () => {
+    const { error, cargando } = this.props;
+    if (cargando) {
+      return <Spinner />;
+    }
+    if (error) {
+      return <Fatal mensaje={error} />;
+    }
+  };
+
+  guardar = () => {
+    const { usuario_id, titulo, agregar } = this.props;
+    const nueva_tarea = {
+      userId: usuario_id,
+      title: titulo,
+      completed: false
+    };
+    agregar(nueva_tarea);
+  };
+
+  deshabilitar = () => {
+    const { usuario_id, titulo } = this.props;
+
+    if (!usuario_id || !titulo) return true;
+
+    return false;
+  };
+
   render() {
     return (
       <div>
+        {this.props.regresar ? <Redirect to="/tareas" /> : ""}
         <h1>Guardar Tarea</h1>
         Usuario id:
         <input
@@ -27,7 +80,10 @@ class Guardar extends Component {
         <input defaultValue={this.props.titulo} onChange={this.cambioTitulo} />
         <br />
         <br />
-        <button>Guardar</button>
+        <button disabled={this.deshabilitar()} onClick={this.guardar}>
+          Guardar
+        </button>
+        {this.mostrarAccion()}
       </div>
     );
   }
